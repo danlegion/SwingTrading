@@ -13,21 +13,6 @@ def swings(shares):
             print "Down"
         i += 1
 
-# def checkSwingUp(shares):
-#     i=3
-#     while i < len(shares):
-#         if(shares[i] > shares[i-1] and shares[i-1] < shares[i-2]):
-#             print "Swing Up " + shares[i]['Date']
-#         i += 1
-#
-#
-# def checkSwingDown(shares):
-#     i = 3
-#     while i < len(shares):
-#         if(shares[i] < shares[i-1] and shares[i-1] > shares[i-2]):
-#             print "Swing Down " + shares[i]['Date']
-#         i += 1
-
 
 def init():
     share = Share('YHOO')
