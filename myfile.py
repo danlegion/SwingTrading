@@ -16,8 +16,6 @@ def swings(shares, ll):
         elif(cur > prev):
             print "Up"
 
-
-
         i += 1
     print ll.cur_low
 
