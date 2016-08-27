@@ -38,7 +38,6 @@ def initFromFile():
         hist = []
         lines = file.readlines()
         for item in lines:
-            item = item.replace("'","\"")
             hist.append(json.loads(item))
 
         hist = hist[::-1]
