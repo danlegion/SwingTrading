@@ -1,0 +1,5 @@
+var React = require('react')
+var dom = require('react-dom')
+var App = require('./app')
+dom.render(<App data={[{id:5},{id:9}]} />, document.getElementById('react-app'))
+// React.render(<App/>, document.getElementById('react-app'))
