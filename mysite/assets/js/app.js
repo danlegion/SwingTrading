@@ -1,13 +1,18 @@
 var React = require('react')
+var Recharts = require('recharts')
+
+const {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} = Recharts;
 
 module.exports = React.createClass({
-   render: function(){
-     console.log(this.props.data)
-     var node = this.props.data.map(function(obj){
-       return <h2>{obj.id}</h2>
-     });
-
-    //  return <h1>Hello {this.props.data.id}</h1>
-       return <h1>Hello, world. {node}</h1>
+   render(){
+      return(
+        <LineChart width={400} height={400} data={this.props.data}>
+          <Line type="monotone" dataKey="value" stroke="#8884d8" />
+          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip/>
+        </LineChart>
+      );
    }
 })
