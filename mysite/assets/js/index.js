@@ -2,7 +2,44 @@ var React = require('react')
 var dom = require('react-dom')
 var App = require('./app')
 var Recharts = require('recharts')
-dom.render(<App data={[{name:'a', value:20},{name:'b',value:30},{name:'b',value:25}]} />, document.getElementById('react-app'))
+
+var Content = React.createClass({
+  loadContentFromServer: function(){
+       $.ajax({
+           url: this.props.url,
+           datatype: 'json',
+           cache: false,
+           success: function(data) {
+               this.setState({data: data});
+           }.bind(this)
+       })
+   },
+
+   getInitialState: function() {
+       return {data: []};
+   },
+
+   componentDidMount: function() {
+       this.loadContentFromServer();
+   },
+
+   render: function() {
+        if (this.state.data.length > 0) {
+          console.log('DATA!')
+            console.log(this.state.data)
+            return (<App data={[this.state.data]}/>);
+        }
+        return (
+            <div>
+                <h1>Hello React!{this.state.data}</h1>
+            </div>
+        );
+    }
+});
+
+dom.render(<Content url='/polls/a' />, document.getElementById('react-app'))
+// dom.render(<App data={[{name:'a', value:20},{name:'b',value:30},{name:'b',value:25}]} />, document.getElementById('react-app'))
+
 // React.render(<App/>, document.getElementById('react-app'))
 
 // const {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} = Recharts;
