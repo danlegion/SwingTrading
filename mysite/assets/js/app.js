@@ -8,10 +8,10 @@ module.exports = React.createClass({
      var json = JSON.parse(this.props.data);
      console.log(json)
       return(
-        <LineChart width={400} height={400} data={json}>
-          <Line type="monotone" dataKey="value" stroke="#8884d8" />
-          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-          <XAxis dataKey="name" />
+        <LineChart width={600} height={500} data={json}>
+          <Line type="monotone" dataKey="Close" stroke="#8884d8" />
+          <CartesianGrid stroke="#ccc" strokeDasharray="1 5" />
+          <XAxis dataKey="Date" />
           <YAxis />
           <Tooltip/>
         </LineChart>

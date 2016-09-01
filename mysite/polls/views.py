@@ -7,6 +7,8 @@ from rest_framework import generics
 
 from rest_framework import serializers
 
+from yahoo_finance import Share
+
 # Create your views here.
 class ObjSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -30,3 +32,13 @@ class ReactTestB(generics.ListCreateAPIView):
     # def get(self, request):
     queryset = {"id":1,"author":"pete"}
     serializer_class = ObjSerializer
+
+class ReactTestC(View):
+    def get(self, request):
+        share = Share('YHOO')
+        data = share.get_historical('2015-12-03', '2016-02-18')
+        data = data[::-1]
+        for d in data:
+            d['Close'] = float(d['Close'])
+
+        return HttpResponse(json.dumps(data))

@@ -37,7 +37,7 @@ var Content = React.createClass({
     }
 });
 
-dom.render(<Content url='/polls/a' />, document.getElementById('react-app'))
+dom.render(<Content url='/polls/c' />, document.getElementById('react-app'))
 // dom.render(<App data={[{name:'a', value:20},{name:'b',value:30},{name:'b',value:25}]} />, document.getElementById('react-app'))
 
 // React.render(<App/>, document.getElementById('react-app'))
