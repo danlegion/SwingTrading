@@ -7,18 +7,18 @@ class Trend(object):
         final: {1}
         period high: {2}
         period low: {3}
-        delta to high: {4} {5}
-        delta to low: {6}"""
+        delta to high: {4:.2f}\t {5:.1f}%
+        delta to low: {6:.2f}\t {7:.1f}%"""
         return s.format(self.initial_close,
         self.final_close,
         self.period_high,
         self.period_low,
-        self.delta_to_high,
-        self.delta_to_high_percent,
-        self.delta_to_low)
+        self.delta_to_high, self.delta_to_high_percent,
+        self.delta_to_low, self.delta_to_low_percent)
 
     def __init__(self, partial):
         self.delta_to_high_percent = 0
+        self.delta_to_low_percent = 0
         self.partial = partial
         self.initial_close = float(self.partial[-1]['Close'])
         self.final_close = float(self.partial[0]['Close'])
@@ -45,10 +45,9 @@ class Trend(object):
         return float(result)
 
     def calculateDeltaPercentage(self):
-        base = self.final_close - self.period_low
-        high = self.period_high - self.period_low
-        self.delta_to_high_percent = (base * 100)/high
-        
+        self.delta_to_high_percent = (self.delta_to_high * 100) / self.final_close
+        self.delta_to_low_percent = (self.delta_to_low * 100) / self.final_close
+
 
     #get high for period
     #get low for period
