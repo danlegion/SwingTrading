@@ -1,5 +1,8 @@
 from yahoo_finance import Share
 import json
+from trends import Trend
+
+
 
 
 def swings(shares, ll):
@@ -25,6 +28,13 @@ def swings(shares, ll):
         i += 1
     print "lowest: {0}, inital low: {1}, current low: {2}".format(ll.lowest, inital_lowest, ll.cur_low)
 
+def getDataFromFile():
+    with open('data-bce.txt', 'r') as file:
+        hist = []
+        lines = file.readlines()
+        for item in lines:
+            hist.append(json.loads(item))
+    return hist
 
 def init():
     share = Share('YHOO')
@@ -34,20 +44,18 @@ def init():
     swings(hist, ll)
 
 def initFromFile():
-    with open('data-bce.txt', 'r') as file:
-        hist = []
-        lines = file.readlines()
-        for item in lines:
-            hist.append(json.loads(item))
-
-        hist = hist[::-1]
-        ll = Lowers(hist[2]['Close'])
-        swings(hist, ll)
+    hist = getDataFromFile()
+    hist = hist[::-1]
+    ll = Lowers(hist[2]['Close'])
+    swings(hist, ll)
 
 
-# def run():
-#     reload()
-#     initFromFile()
+def analyze(days):
+    partial = getDataFromFile()[:days]
+    trend =  Trend(partial)
+    return trend
+
+
 
 
 def analyzeDownTrend(share, lowers):
@@ -73,6 +81,7 @@ class Lowers(object):
         self.cur_low = new_low
         if(self.cur_low < self.lowest):
             self.lowest = self.cur_low
+
 
 
 # check for lower lows after seeing a swing up (3 times for higher confidence)
