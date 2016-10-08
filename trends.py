@@ -54,5 +54,16 @@ class Trend(object):
     #analyze trend (
         #how many deltas
         #how far from high/low,
-        #how many corrections)
-    #
+        #how many corrections??,
+        #how many uptrends,
+        #how many downtrends)
+
+    #Algorithm for calculating swing trend:
+    #the more up trends vs down trends higher confidence of real uptrend
+    #the more down trends vs up trends highger confidence of real downtrend
+
+    #Result: number of up trends and number of down trends
+    #uptrend is: at least 2 swing up in a row OR at least 3 higher highs in a row
+    #downtrend is: at least 2 swing down in a row OR at least 3 lower lows in a row
+
+    #note for there to be 2 swingups in a row there has to be a swingdown in the middle
