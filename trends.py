@@ -27,6 +27,8 @@ class Trend(object):
         self.delta_to_high = self.period_high - self.final_close
         self.delta_to_low = self.final_close - self.period_low
         self.calculateDeltaPercentage()
+        self.swingups_count = 0
+        self.swingdowns_count = 0
 
     def getPeriodHigh(self):
         result = None
@@ -67,3 +69,5 @@ class Trend(object):
     #downtrend is: at least 2 swing down in a row OR at least 3 lower lows in a row
 
     #note for there to be 2 swingups in a row there has to be a swingdown in the middle
+    #swingup = prince -> lower -> higher
+    #swingdown  = price -> higher -> lower
