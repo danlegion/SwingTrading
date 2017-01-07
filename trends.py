@@ -29,6 +29,7 @@ class Trend(object):
         self.calculateDeltaPercentage()
         self.swingups_count = 0
         self.swingdowns_count = 0
+        self.calculateTrends()
 
     def getPeriodHigh(self):
         result = None
@@ -49,6 +50,36 @@ class Trend(object):
     def calculateDeltaPercentage(self):
         self.delta_to_high_percent = (self.delta_to_high * 100) / self.final_close
         self.delta_to_low_percent = (self.delta_to_low * 100) / self.final_close
+
+    def calculateTrends(self):
+        i = 3
+        shares = self.partial[::-1]
+        ll = Swings(shares[2]['Close'])
+        inital_lowest = ll.lowest
+        print "Inital lowest: " + inital_lowest
+
+        while i < len(shares):
+            cur = shares[i]['Close']
+            prev = shares[i-1]['Close']
+            tprv = shares[i-2]['Close']
+            if(cur > prev and prev < tprv):
+                print "Swing Up\t" + shares[i]['Date'] +' ' + cur
+                ll.capture("swingup")
+            elif(cur < prev and prev > tprv):
+                print "Swing Down\t" + shares[i]['Date'] + ' ' + cur
+                ll.capture("swingdown")
+            elif(cur > prev and prev > tprv):
+                print "Up" + ' ' + cur
+                ll.capture("up")
+            elif(cur < prev and prev < tprv):
+                print "Down" + ' ' + cur
+                ll.capture("down")
+
+
+            i += 1
+        print ll.swings
+
+
 
 
     #get high for period
@@ -71,3 +102,53 @@ class Trend(object):
     #note for there to be 2 swingups in a row there has to be a swingdown in the middle
     #swingup = prince -> lower -> higher
     #swingdown  = price -> higher -> lower
+
+
+class Swings(object):
+    """docstring for Lowers"""
+    def __init__(self, low):
+        self.cur_low = low
+        self.cur_high = low
+        self.lowest = low
+        self.highest = low
+
+        self.last_swing = ""
+        self.swingups_count = 0
+        self.swingdowns_count = 0
+        self.confidence_level = 0
+
+        self.swings = []
+
+    def capture(self,swing):
+        self.swings.append(swing)
+
+    def computeTrends():
+        i = 1
+        while i < len(self.swings):
+            swing = self.swing[i]
+
+
+
+
+
+    # def analyzeSwing(self, share, swing):
+    #     print "curLow: {0}, curHigh:{1}, Cur:{2}, Swing:{3} ".format(self.cur_low, self.cur_high, share, swing)
+    #     if swing == 'up':
+    #         if(self.last_swing == 'down'):
+    #             self.swingups += 1
+    #         # pass
+    #     elif swing == 'down':
+    #         self.analyzeDownTrend(share)
+    #
+    # def analyzeDownTrend(self, share):
+    #     # print self.cur_low + "   cur: " + share
+    #     if(self.last_swing == "up"):
+    #         self.swingdowns_count += 1
+    #
+    #     cur_drops = self.drop_number
+    #     if self.cur_low > share:
+    #         self.drop_number += 1
+    #         self.set_prev_low(share)
+    #
+    #     if self.drop_number >= 3 and cur_drops != self.drop_number:
+    #         print "---------{0} Lower Lows at {1}".format(self.drop_number, self.cur_low)
