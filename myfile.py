@@ -29,7 +29,7 @@ def swings(shares, ll):
     print "lowest: {0}, inital low: {1}, current low: {2}".format(ll.lowest, inital_lowest, ll.cur_low)
 
 def getDataFromFile():
-    with open('data-bce.txt', 'r') as file:
+    with open('data-cve.txt', 'r') as file:
         hist = []
         lines = file.readlines()
         for item in lines:

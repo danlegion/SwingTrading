@@ -8,13 +8,15 @@ class Trend(object):
         period high: {2}
         period low: {3}
         delta to high: {4:.2f}\t {5:.1f}%
-        delta to low: {6:.2f}\t {7:.1f}%"""
+        delta to low: {6:.2f}\t {7:.1f}%
+        {8}"""
         return s.format(self.initial_close,
         self.final_close,
         self.period_high,
         self.period_low,
         self.delta_to_high, self.delta_to_high_percent,
-        self.delta_to_low, self.delta_to_low_percent)
+        self.delta_to_low, self.delta_to_low_percent,
+        self.trends)
 
     def __init__(self, partial):
         self.delta_to_high_percent = 0
@@ -27,8 +29,8 @@ class Trend(object):
         self.delta_to_high = self.period_high - self.final_close
         self.delta_to_low = self.final_close - self.period_low
         self.calculateDeltaPercentage()
-        self.swingups_count = 0
-        self.swingdowns_count = 0
+        self.trends = []
+        self.swings = Swings()
         self.calculateTrends()
 
     def getPeriodHigh(self):
@@ -52,32 +54,27 @@ class Trend(object):
         self.delta_to_low_percent = (self.delta_to_low * 100) / self.final_close
 
     def calculateTrends(self):
-        i = 3
+        j = 0
         shares = self.partial[::-1]
-        ll = Swings(shares[2]['Close'])
-        inital_lowest = ll.lowest
-        print "Inital lowest: " + inital_lowest
+        while j < len(self.partial)-8:
+            tmp_shares = shares[j:j+8]
+            i = 3
 
-        while i < len(shares):
-            cur = shares[i]['Close']
-            prev = shares[i-1]['Close']
-            tprv = shares[i-2]['Close']
-            if(cur > prev and prev < tprv):
-                print "Swing Up\t" + shares[i]['Date'] +' ' + cur
-                ll.capture("swingup")
-            elif(cur < prev and prev > tprv):
-                print "Swing Down\t" + shares[i]['Date'] + ' ' + cur
-                ll.capture("swingdown")
-            elif(cur > prev and prev > tprv):
-                print "Up" + ' ' + cur
-                ll.capture("up")
-            elif(cur < prev and prev < tprv):
-                print "Down" + ' ' + cur
-                ll.capture("down")
+        #repeat this for a size of 5 days every day
+        #store the latest trend and analyze:
+            # - if latest 2 trends are up check the previous if  2 or more previous are down could be time to buy
+            # - if latest 2 trends are down check the previous if 2 or more previous are up could be time to sell
+            #TODO calculate advice based on --^
+        #this method right now represents only 1 day
+            while i < len(tmp_shares):
+                cur = tmp_shares[i]['Close']
+                prev = tmp_shares[i-1]['Close']
+                tprv = tmp_shares[i-2]['Close']
+                self.swings.computeTrends(cur, prev, tprv)
+                i += 1
+            self.trends.append(self.swings.latest_trend)
+            j += 1
 
-
-            i += 1
-        print ll.swings
 
 
 
@@ -106,26 +103,48 @@ class Trend(object):
 
 class Swings(object):
     """docstring for Lowers"""
-    def __init__(self, low):
-        self.cur_low = low
-        self.cur_high = low
-        self.lowest = low
-        self.highest = low
+    def __str__(self):
+        s =  """
+        Up trends count:{0}
+        Down trends count: {1}
+        Trend: {2}"""
+        return s.format(self.uptrend_count, self.downtrend_count, self.latest_trend.upper())
 
+
+    def __init__(self):
         self.last_swing = ""
-        self.swingups_count = 0
-        self.swingdowns_count = 0
+        self.downtrend_count = 0
+        self.uptrend_count = 0
         self.confidence_level = 0
 
         self.swings = []
+        self.latest_trend = ""
+        self.temp_trend = ""
 
     def capture(self,swing):
         self.swings.append(swing)
 
-    def computeTrends():
-        i = 1
-        while i < len(self.swings):
-            swing = self.swing[i]
+    def computeTrends(self, cur, p, pp):
+        if cur < p:
+            self.temp_trend = "down"
+        elif cur > p:
+            self.temp_trend = "up"
+
+        if cur < pp and self.temp_trend == "down":
+            self.downtrend_count += 1
+            self.latest_trend = "down"
+        elif cur < pp and self.temp_trend == "up":
+            #this could be a correction
+            pass
+        elif cur > pp and self.temp_trend == "up":
+            self.uptrend_count += 1
+            self.latest_trend = "up"
+        elif cur > pp and self.temp_trend == "down":
+            #this could be a correction
+            pass
+
+        # print "tmpTrend:{0}, utc:{1}, dtc{2}, latestTrend:{3}".format(self.temp_trend,
+        # self.uptrend_count, self.downtrend_count, self.latest_trend)
 
 
 
