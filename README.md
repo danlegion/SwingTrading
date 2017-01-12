@@ -1,7 +1,6 @@
 # SwingTrading
-npm watch (for dev)
+npm run watch (for dev)
 
 python manage.py runserver
 
-
-npm build-production (to create assets)
+npm run build-production (to create assets)
