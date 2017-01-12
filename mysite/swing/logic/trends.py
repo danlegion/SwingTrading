@@ -1,6 +1,18 @@
 
 class Trend(object):
 
+    def toJson(self):
+        j = {'stock': self.symbol,
+            'inital': self.initial_close,
+            'final': self.final_close,
+            'period high': self.period_high,
+            'period low': self.period_low,
+            'delta to high': "${0:.2f} - {1:.1f}%".format(self.delta_to_high, self.delta_to_high_percent),
+            'delta to low': "${0:.2f} - {1:.1f}%".format(self.delta_to_low, self.delta_to_low_percent),
+            'advice': self.notification,
+            'trends': self.trends}
+        return j
+
     def __str__(self):
         s =  """
         initial: {0}
@@ -18,14 +30,15 @@ class Trend(object):
         self.delta_to_low, self.delta_to_low_percent,
         self.notification)
 
-    def __init__(self, partial):
+    def __init__(self, partial, symbol):
+        self.symbol = symbol
         self.delta_to_high_percent = 0
         self.delta_to_low_percent = 0
         self.partial = partial
         self.initial_close = float(self.partial[-1]['Close'])
         self.final_close = float(self.partial[0]['Close'])
         self.period_high = self.getPeriodHigh()
-        self.period_low = self.getPeriodLow(partial)
+        self.period_low = self.getPeriodLow()
         self.delta_to_high = self.period_high - self.final_close
         self.delta_to_low = self.final_close - self.period_low
         self.calculateDeltaPercentage()
@@ -39,17 +52,17 @@ class Trend(object):
         result = None
         for day in self.partial:
             close = float(day['Close'])
-            if( result == None or close > result):
+            if result is None or close > result:
                 result = close
-        return float(result)
+        return result
 
-    def getPeriodLow(self, partial):
+    def getPeriodLow(self):
         result = None
-        for day in partial:
+        for day in self.partial:
             close = float(day['Close'])
-            if( result == None or close < result):
+            if result is None or close < result:
                 result = close
-        return float(result)
+        return result
 
     def calculateDeltaPercentage(self):
         self.delta_to_high_percent = (self.delta_to_high * 100) / self.final_close

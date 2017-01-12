@@ -4,9 +4,7 @@ from django.template.response import TemplateResponse
 import json
 from django.views import View
 from rest_framework import generics
-
 from rest_framework import serializers
-
 from yahoo_finance import Share
 
 # Create your views here.
