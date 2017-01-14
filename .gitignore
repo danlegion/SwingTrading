@@ -3,3 +3,4 @@ ve/
 mysite/node_modules/
 .idea/
 mysite/assets/bundles/
+mysite/static/
