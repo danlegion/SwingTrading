@@ -155,9 +155,9 @@ if not DEBUG:
 
 
 #CELERY SETUP
-BROKER_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
+BROKER_URL = os.getenv('REDISCLOUD_URL', 'redis://localhost:6379')
 BROKER_POOL_LIMIT = None
-CELERY_RESULT_BACKEND = os.getenv('REDIS_URL', '')
+CELERY_RESULT_BACKEND = os.getenv('REDISCLOUD_URL', '')
 CELERY_TIMEZONE = 'Canada/Mountain'
 CELERY_IMPORTS = ('swing.worker.tasks',)
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
