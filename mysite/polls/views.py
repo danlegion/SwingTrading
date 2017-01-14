@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.response import TemplateResponse
 import json
-from django.views import View
+from django.views.generic import View
 from rest_framework import generics
 from rest_framework import serializers
 from yahoo_finance import Share

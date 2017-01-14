@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'webpack_loader',
     'rest_framework',
+    'djcelery',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,15 @@ if not DEBUG:
         'BUNDLE_DIR_NAME': 'dist/',
         'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats-prod.json')
         })
+
+
+#CELERY SETUP
+BROKER_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+CELERY_TIMEZONE = 'Canada/Mountain'
+CELERY_IMPORTS = ('swing.worker.tasks',)
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+
+import djcelery
+djcelery.setup_loader()
+
+
