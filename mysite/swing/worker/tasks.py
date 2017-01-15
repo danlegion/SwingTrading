@@ -28,7 +28,7 @@ def runTrends():
         logging.info(news)
         if trend.report:
             requests.post(TILL_URL, json={
-                "phone": ["15558675309", "15558675308"],
+                "phone": ["14036040747"],
                 "text" : news
             })
 
