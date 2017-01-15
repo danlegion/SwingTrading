@@ -5,7 +5,7 @@ from celery import Celery
 from celery.task import periodic_task
 from datetime import timedelta
 from os import environ
-from swing.logic import Swing
+from swing.views import Swing
 
 REDIS_URL = environ.get('REDISCLOUD_URL', 'redis://localhost')
 
