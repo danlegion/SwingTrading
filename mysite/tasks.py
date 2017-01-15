@@ -5,6 +5,7 @@ from celery import Celery
 from celery.task import periodic_task
 from datetime import timedelta
 from os import environ
+from swing.logic import Swing
 
 REDIS_URL = environ.get('REDISCLOUD_URL', 'redis://localhost')
 
@@ -21,3 +22,4 @@ def fib(n):
 @periodic_task(run_every=timedelta(seconds=10))
 def print_fib():
     logging.info(fib(30))
+    logging.info(Swing.analyze())
