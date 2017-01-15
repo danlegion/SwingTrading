@@ -6,7 +6,7 @@ from celery.task import periodic_task
 from datetime import timedelta
 from os import environ
 
-REDIS_URL = environ.get('REDISTOGO_URL', 'redis://localhost')
+REDIS_URL = environ.get('REDISCLOUD_URL', 'redis://localhost')
 
 celery = Celery('tasks', broker=REDIS_URL)
 
