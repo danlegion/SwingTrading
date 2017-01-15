@@ -16,9 +16,10 @@ REDIS_URL = environ.get('REDISCLOUD_URL', 'redis://localhost')
 celery = Celery('tasks', broker=REDIS_URL)
 
 TILL_URL = environ.get("TILL_URL")
+PHONE_NUMBER = environ.get("PHONE_NUMBER")
 
-# @periodic_task(run_every=timedelta(seconds=20))
-@periodic_task(run_every=crontab(hour='6', minute=36))
+@periodic_task(run_every=timedelta(seconds=20))
+# @periodic_task(run_every=crontab(hour='6', minute=36))
 def runTrends():
     logging.info("Stock analysis started...")
     trends = Swing().analyze()
@@ -28,7 +29,7 @@ def runTrends():
         logging.info(news)
         if trend.report:
             requests.post(TILL_URL, json={
-                "phone": ["14036040747"],
+                "phone": [PHONE_NUMBER],
                 "text" : news
             })
 
