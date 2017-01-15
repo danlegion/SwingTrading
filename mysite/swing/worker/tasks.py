@@ -17,8 +17,8 @@ celery = Celery('tasks', broker=REDIS_URL)
 
 TILL_URL = environ.get("TILL_URL")
 
-@periodic_task(run_every=timedelta(seconds=20))
-# @periodic_task(run_every=crontab(hour='6', minute=36))
+# @periodic_task(run_every=timedelta(seconds=20))
+@periodic_task(run_every=crontab(hour='6', minute=36))
 def runTrends():
     logging.info("Stock analysis started...")
     trends = Swing().analyze()
