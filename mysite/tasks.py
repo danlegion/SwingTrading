@@ -22,4 +22,5 @@ def fib(n):
 @periodic_task(run_every=timedelta(seconds=10))
 def print_fib():
     logging.info(fib(30))
-    logging.info(Swing.analyze())
+    # trends = Swing().analyze()
+    logging.info(Swing().analyze())
