@@ -42,6 +42,7 @@ class Trend(object):
         self.delta_to_high = self.period_high - self.final_close
         self.delta_to_low = self.final_close - self.period_low
         self.calculateDeltaPercentage()
+        self.report = False
         self.trends = []
         self.notification = ""
         self.swings = Swings()
@@ -94,13 +95,16 @@ class Trend(object):
     def computeAdvice(self):
         trends = self.trends[::-1]
 
-        if(trends[0] == trends[1] and trends[2] == trends[3] and trends[1] != trends[2]):
-            if(trends[0] == "up"):
+        if trends[0] == trends[1] and trends[2] == trends[3] and trends[1] != trends[2]:
+            if trends[0] == "up":
                 self.notification = "POSSIBLE BUY OPPORTUNITY"
-            elif(trends[0] == "down"):
+                self.report = True
+            elif trends[0] == "down":
                 self.notification = "POSSIBLE SELL TIME"
+                self.report = True
         else:
             self.notification = "no changes to {0} trend".format(trends[0].upper())
+            self.report = False
 
 
 
