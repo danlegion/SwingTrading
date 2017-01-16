@@ -22,7 +22,7 @@ TILL_URL = environ.get("TILL_URL")
 PHONE_NUMBER = environ.get("PHONE_NUMBER")
 
 # @periodic_task(run_every=timedelta(seconds=20))
-@periodic_task(run_every=crontab(hour='21', minute=57))
+@periodic_task(run_every=crontab(hour='22', minute=02))
 def runTrends():
     logging.info("Stock analysis started...")
     trends = Swing().analyze()
