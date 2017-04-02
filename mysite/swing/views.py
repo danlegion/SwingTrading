@@ -17,7 +17,7 @@ class Swing(View):
 
     # trends the stocks for the past 30 days
     def analyze(self):
-        stocks = ['CVE.TO', 'GOOG', 'HBC.TO', 'CNQ.TO']
+        stocks = ['CVE.TO', 'GOOG', 'HBC.TO', 'CNQ.TO', 'VSN.TO','BCE.TO','T.TO','RCI-B.TO','RSI.TO']
         today = str(date.today())
         start_date = str(date.today() - timedelta(days=30))
 
